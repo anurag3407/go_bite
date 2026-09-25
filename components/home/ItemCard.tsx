@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { CatalogItem, Shop } from '@/lib/types';
 import { useCart } from '@/lib/store/cart-context';
-import { Plus, Minus, Clock, Flame } from 'lucide-react';
+import { Plus, Minus, Clock } from 'lucide-react';
 
 interface ItemCardProps {
   item: CatalogItem;
@@ -11,103 +11,104 @@ interface ItemCardProps {
 }
 
 export function ItemCard({ item, shop }: ItemCardProps) {
-  const { items, addItem, updateQuantity } = useCart();
-  const cartItem = items.find((ci) => ci.item.id === item.id);
-  const quantity = cartItem?.quantity || 0;
+  const { cart, addItem, updateQuantity } = useCart();
+  const [extraTopping, setExtraTopping] = useState(false);
+
+  // Quantity comes from the server-side cart, so it stays correct across
+  // devices and cannot be tampered with locally.
+  const cartItem = cart?.items.find((line) => line.item.id === item.id);
+  const quantity = cartItem?.quantity ?? 0;
 
   return (
-    <div className="bg-white border border-[#F1E9E4] hover:border-[#E95322]/40 rounded-3xl p-3.5 flex flex-col justify-between transition-all hover:shadow-lg hover:shadow-[#E95322]/5 group">
-      <div>
-        {/* Image & Bestseller / Veg Indicators */}
-        <div className="relative h-40 w-full rounded-2xl overflow-hidden bg-[#FAF7F5] mb-3">
+    <div className={`card-elevated card-hover p-4 bg-white flex items-center justify-between gap-4 relative overflow-hidden transition-all ${
+      quantity > 0 ? 'ring-2 ring-[#FF6161]/25 border-[#FF6161]/50' : 'border-[#F2ECE9]'
+    }`}>
+      {/* Food Avatar / Circular Thumbnail (From Reference Image) */}
+      <div className="relative shrink-0">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full p-1 bg-white ring-2 ring-[#F2ECE9] shadow-md overflow-hidden">
           <div
-            className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full rounded-full bg-cover bg-center transition-transform duration-300 hover:scale-110"
             style={{ backgroundImage: `url(${item.image_url})` }}
           />
-
-          {/* Veg / Non-Veg Indicator */}
-          <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md p-1 rounded-md shadow-sm">
-            <div className={`w-3.5 h-3.5 rounded-xs border flex items-center justify-center ${
-              item.is_veg ? 'border-emerald-600' : 'border-rose-600'
-            }`}>
-              <div className={`w-1.5 h-1.5 rounded-full ${
-                item.is_veg ? 'bg-emerald-600' : 'bg-rose-600'
-              }`} />
-            </div>
-          </div>
-
-          {/* Bestseller Tag */}
-          {item.bestseller && (
-            <div className="absolute top-2.5 right-2.5 bg-[#E95322] text-white px-2 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm">
-              <Flame className="w-3 h-3 fill-white" />
-              <span>Bestseller</span>
-            </div>
-          )}
-
-          {/* Duration for salon appointment services */}
-          {item.duration_minutes && (
-            <div className="absolute bottom-2.5 left-2.5 bg-[#391713]/80 backdrop-blur-md text-[#FFDECF] px-2 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              <span>{item.duration_minutes} mins</span>
-            </div>
-          )}
         </div>
 
-        {/* Title & Description */}
-        <div className="space-y-1">
-          <h4 className="font-black text-sm text-[#391713] line-clamp-1 group-hover:text-[#E95322] transition">
-            {item.name}
-          </h4>
-          <p className="text-xs text-[#7A6A65] line-clamp-2 leading-relaxed">
-            {item.description}
-          </p>
+        {/* Veg / Non-Veg Indicator Pin */}
+        <div className="absolute -bottom-1 -right-1 bg-white p-0.5 rounded-md shadow-xs border border-[#F2ECE9]">
+          <div className={`w-3 h-3 rounded-xs border flex items-center justify-center ${
+            item.is_veg ? 'border-emerald-600' : 'border-rose-600'
+          }`}>
+            <div className={`w-1.5 h-1.5 rounded-full ${item.is_veg ? 'bg-emerald-600' : 'bg-rose-600'}`} />
+          </div>
         </div>
       </div>
 
-      {/* Pricing & Add/Quantity Actions */}
-      <div className="pt-3 mt-3 border-t border-[#F1E9E4] flex items-center justify-between">
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-base font-black text-[#391713]">
+      {/* Item Details (From Reference Image) */}
+      <div className="flex-1 min-w-0 space-y-1">
+        <div className="flex items-center justify-between gap-2">
+          <h4 className="font-black text-sm sm:text-base text-[#1E1E24] truncate">
+            {item.name}
+          </h4>
+          <span className="font-black text-sm sm:text-base text-[#1E1E24] shrink-0">
             ₹{item.discounted_price ?? item.price}
           </span>
-          {item.discounted_price && (
-            <span className="text-xs text-[#7A6A65] line-through font-semibold">
-              ₹{item.price}
-            </span>
-          )}
         </div>
 
-        {/* Counter / Add Button */}
-        {quantity > 0 ? (
-          <div className="flex items-center gap-2 bg-[#FFF4EF] border border-[#E95322] text-[#E95322] px-2 py-1 rounded-xl font-black text-xs">
-            <button
-              onClick={() => updateQuantity(item.id, -1)}
-              className="w-5 h-5 rounded-md hover:bg-[#FFDECF] flex items-center justify-center transition active:scale-90"
-            >
-              <Minus className="w-3 h-3" />
-            </button>
-            <span className="min-w-[16px] text-center">{quantity}</span>
-            <button
-              onClick={() => updateQuantity(item.id, 1)}
-              className="w-5 h-5 rounded-md hover:bg-[#FFDECF] flex items-center justify-center transition active:scale-90"
-            >
-              <Plus className="w-3 h-3" />
-            </button>
+        <p className="text-xs text-[#7E7E8B] line-clamp-1">
+          {item.description}
+        </p>
+
+        {/* Duration for salon appointments or Add Extra Topping checkbox */}
+        <div className="flex items-center justify-between pt-1">
+          {item.duration_minutes ? (
+            <div className="text-[11px] font-bold text-[#FF6161] flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              <span>{item.duration_minutes} mins slot</span>
+            </div>
+          ) : (
+            <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-[#7E7E8B] select-none hover:text-[#1E1E24]">
+              <input
+                type="checkbox"
+                checked={extraTopping}
+                onChange={() => setExtraTopping(!extraTopping)}
+                className="w-3.5 h-3.5 rounded-sm accent-[#FF6161] cursor-pointer"
+              />
+              <span>Add Extra Topping</span>
+            </label>
+          )}
+
+          {/* Quantity Pill Controller (From Reference Image: - 1 +) */}
+          <div className="flex items-center gap-2 bg-[#FAF6F4] border border-[#F2ECE9] text-[#1E1E24] px-2.5 py-1 rounded-full text-xs font-bold">
+            {quantity > 0 ? (
+              <>
+                <button
+                  onClick={() => updateQuantity(item.id, -1)}
+                  className="w-4 h-4 flex items-center justify-center hover:text-[#FF6161] transition active:scale-75"
+                >
+                  <Minus className="w-3 h-3" />
+                </button>
+                <span className="min-w-[14px] text-center font-black text-[#FF6161]">{quantity}</span>
+                <button
+                  onClick={() => updateQuantity(item.id, 1)}
+                  className="w-4 h-4 flex items-center justify-center hover:text-[#FF6161] transition active:scale-75"
+                >
+                  <Plus className="w-3 h-3" />
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => addItem(item, shop)}
+                disabled={!item.is_available}
+                className={`font-black text-xs px-2 transition ${
+                  item.is_available
+                    ? 'text-[#FF6161] hover:text-[#EE4D4D]'
+                    : 'text-[#7E7E8B] cursor-not-allowed'
+                }`}
+              >
+                {item.is_available ? '+ Add' : 'Sold Out'}
+              </button>
+            )}
           </div>
-        ) : (
-          <button
-            onClick={() => addItem(item, shop)}
-            disabled={!item.is_available}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xl font-black text-xs transition active:scale-95 shadow-sm ${
-              item.is_available
-                ? 'bg-[#E95322] hover:bg-[#D44213] text-white shadow-[#E95322]/20'
-                : 'bg-[#F1E9E4] text-[#7A6A65] cursor-not-allowed'
-            }`}
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>{item.is_available ? 'ADD' : 'SOLD OUT'}</span>
-          </button>
-        )}
+        </div>
       </div>
     </div>
   );

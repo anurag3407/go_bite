@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #E95322;
-  --primary-hover: #D44213;
-  --primary-light: #FFDECF;
-  --primary-ultralight: #FFF4EF;
-  --text-dark: #391713;
-  --text-muted: #7A6A65;
-  --bg-canvas: #FAF7F5;
+  --primary: #FF6161;
+  --primary-hover: #EE4D4D;
+  --primary-dark: #D93B3B;
+  --primary-light: #FFECEB;
+  --primary-ultralight: #FFF5F4;
+  --text-main: #1E1E24;
+  --text-muted: #7E7E8B;
+  --bg-canvas: #FAF6F4;
   --bg-card: #FFFFFF;
-  --border-subtle: #F1E9E4;
+  --border-subtle: #F2ECE9;
 }
 
 body {
   background-color: var(--bg-canvas);
-  color: var(--text-dark);
+  color: var(--text-main);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "League Spartan", sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
@@ -32,20 +33,21 @@ body {
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C4B5AF;
+  background: #FF6161;
 }
 
-/* Figma Pill and Button utilities */
+/* Clean elevation and pill utilities matching reference image */
 .btn-primary {
-  background-color: #E95322;
+  background-color: #FF6161;
   color: #FFFFFF;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 9999px;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-primary:hover {
-  background-color: #D44213;
+  background-color: #EE4D4D;
   transform: translateY(-1px);
+  box-shadow: 0 8px 20px -4px rgba(255, 97, 97, 0.4);
 }
 .btn-primary:active {
   transform: translateY(0);
@@ -53,7 +55,15 @@ body {
 
 .card-elevated {
   background: #FFFFFF;
-  border: 1px solid #F1E9E4;
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 20px -2px rgba(57, 23, 19, 0.05);
+  border: 1px solid #F2ECE9;
+  border-radius: 1.75rem;
+  box-shadow: 0 10px 30px -4px rgba(30, 30, 36, 0.04), 0 4px 12px -2px rgba(255, 97, 97, 0.03);
+}
+
+.card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -6px rgba(30, 30, 36, 0.08), 0 6px 16px -2px rgba(255, 97, 97, 0.06);
 }

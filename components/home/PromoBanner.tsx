@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, ArrowRight, Clock, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 
 export function PromoBanner() {
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#E95322] via-[#F26436] to-[#FF8154] text-white p-6 sm:p-8 shadow-xl shadow-[#E95322]/15">
-      {/* Decorative Background Elements from Figma Frame 71 */}
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#FF6161] via-[#FF6F6F] to-[#FF8585] text-white p-6 sm:p-8 shadow-xl shadow-[#FF6161]/15">
+      {/* Decorative Blur Circles */}
       <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-      <div className="absolute top-0 right-1/4 w-32 h-32 bg-[#FFDECF]/20 rounded-full blur-xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-32 h-32 bg-[#FFECEB]/20 rounded-full blur-xl pointer-events-none" />
 
       <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="max-w-xl space-y-2">
@@ -19,7 +19,7 @@ export function PromoBanner() {
 
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
             Craving Midnight Snacks? <br className="hidden sm:inline" />
-            <span className="text-[#FFDECF]">30% OFF</span> on Canteen Meals & Shakes
+            <span className="text-[#FFECEB]">30% OFF</span> on Canteen Meals & Shakes
           </h2>
 
           <p className="text-xs sm:text-sm text-white/90 font-medium">
@@ -31,15 +31,15 @@ export function PromoBanner() {
         <div className="shrink-0 flex items-center gap-3">
           <div className="bg-white/10 border border-white/20 backdrop-blur-md px-4 py-3 rounded-2xl text-center hidden sm:block">
             <div className="text-[10px] text-white/80 font-bold uppercase tracking-wider">Use Promo Code</div>
-            <div className="text-lg font-black tracking-wider text-[#FFDECF]">CAMPUS30</div>
+            <div className="text-lg font-black tracking-wider text-[#FFECEB]">CAMPUS30</div>
           </div>
 
           <a
             href="#canteen-section"
-            className="inline-flex items-center gap-2 bg-[#391713] hover:bg-[#250E0B] text-white px-5 py-3.5 rounded-2xl font-black text-xs sm:text-sm shadow-lg transition active:scale-95"
+            className="inline-flex items-center gap-2 bg-[#1E1E24] hover:bg-black text-white px-5 py-3.5 rounded-full font-black text-xs sm:text-sm shadow-lg transition active:scale-95"
           >
             <span>Order Now</span>
-            <ArrowRight className="w-4 h-4 text-[#FFDECF]" />
+            <ArrowRight className="w-4 h-4 text-[#FFECEB]" />
           </a>
         </div>
       </div>

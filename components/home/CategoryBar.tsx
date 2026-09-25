@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import type { LucideIcon } from 'lucide-react';
 import { 
   UtensilsCrossed, 
   Moon, 
@@ -8,8 +9,7 @@ import {
   Scissors, 
   Shirt, 
   Printer, 
-  Sparkles,
-  Leaf
+  Sparkles 
 } from 'lucide-react';
 
 export type CategoryFilter = 
@@ -34,7 +34,7 @@ export function CategoryBar({
   isVegOnly,
   onToggleVegOnly,
 }: CategoryBarProps) {
-  const categories: { id: CategoryFilter; label: string; icon: any; isNew?: boolean }[] = [
+  const categories: { id: CategoryFilter; label: string; icon: LucideIcon; isNew?: boolean }[] = [
     { id: 'ALL', label: 'All Services', icon: Sparkles },
     { id: 'FOOD_MEALS', label: 'Meals & Canteens', icon: UtensilsCrossed },
     { id: 'NIGHT_MESS', label: 'Night Mess (Till 3 AM)', icon: Moon },
@@ -55,15 +55,15 @@ export function CategoryBar({
               onClick={() => onSelectCategory(id)}
               className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition-all ${
                 isActive
-                  ? 'bg-[#E95322] text-white shadow-md shadow-[#E95322]/20 scale-102'
-                  : 'bg-white text-[#391713] border border-[#F1E9E4] hover:border-[#E95322]/50 hover:bg-[#FAF7F5]'
+                  ? 'bg-[#FF6161] text-white shadow-md shadow-[#FF6161]/25 scale-102'
+                  : 'bg-white text-[#1E1E24] border border-[#F2ECE9] hover:border-[#FF6161]/40 hover:bg-[#FAF6F4]'
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#E95322]'}`} />
+              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#FF6161]'}`} />
               <span>{label}</span>
               {isNew && (
                 <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-black uppercase tracking-wider ${
-                  isActive ? 'bg-white text-[#E95322]' : 'bg-[#FFDECF] text-[#E95322]'
+                  isActive ? 'bg-white text-[#FF6161]' : 'bg-[#FFECEB] text-[#FF6161]'
                 }`}>
                   New
                 </span>
@@ -73,17 +73,17 @@ export function CategoryBar({
         })}
       </div>
 
-      {/* Veg Only Toggle Button (Figma Style) */}
-      <div className="shrink-0 pl-2 border-l border-[#F1E9E4]">
+      {/* Veg Only Toggle Button */}
+      <div className="shrink-0 pl-2 border-l border-[#F2ECE9]">
         <button
           onClick={onToggleVegOnly}
           className={`flex items-center gap-2 px-3.5 py-2.5 rounded-full text-xs font-bold border transition ${
             isVegOnly
-              ? 'bg-emerald-50 text-emerald-800 border-emerald-500 shadow-sm'
-              : 'bg-white text-[#7A6A65] border-[#F1E9E4] hover:bg-[#FAF7F5]'
+              ? 'bg-emerald-50 text-emerald-800 border-emerald-500 shadow-xs'
+              : 'bg-white text-[#7E7E8B] border-[#F2ECE9] hover:bg-[#FAF6F4]'
           }`}
         >
-          <div className="w-3.5 h-3.5 rounded-sm border border-emerald-600 flex items-center justify-center p-0.5">
+          <div className="w-3.5 h-3.5 rounded-xs border border-emerald-600 flex items-center justify-center p-0.5">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
           </div>
           <span>Pure Veg</span>

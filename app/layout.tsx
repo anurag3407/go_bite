@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { League_Spartan } from 'next/font/google';
 import './globals.css';
+import { SessionProvider } from '@/lib/store/session-context';
 import { CampusProvider } from '@/lib/store/campus-context';
 import { CartProvider } from '@/lib/store/cart-context';
-import { RoleProvider } from '@/lib/store/role-context';
+import { UiProvider } from '@/lib/store/ui-context';
+import { AuthModal } from '@/components/auth/AuthModal';
 
 const leagueSpartan = League_Spartan({
   subsets: ['latin'],
@@ -13,7 +15,8 @@ const leagueSpartan = League_Spartan({
 
 export const metadata: Metadata = {
   title: 'Go-Bite | Hyperlocal Campus Delivery & Concierge',
-  description: 'Order hot food, night mess, salon appointments, and laundry delivered directly to your hostel gate with 4-digit PIN verification.',
+  description:
+    'Order hot food, night mess, salon appointments, and laundry delivered directly to your hostel gate with 4-digit PIN verification.',
 };
 
 export default function RootLayout({
@@ -23,14 +26,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${leagueSpartan.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans bg-[#FAF7F5] text-[#391713]">
-        <RoleProvider>
-          <CampusProvider>
-            <CartProvider>
-              {children}
-            </CartProvider>
-          </CampusProvider>
-        </RoleProvider>
+      <body className="min-h-full flex flex-col font-sans bg-[#FAF6F4] text-[#1E1E24]">
+        <SessionProvider>
+          <UiProvider>
+            <CampusProvider>
+              <CartProvider>
+                {children}
+                {/* Mounted once, above the page, so any surface can prompt sign-in. */}
+                <AuthModal />
+              </CartProvider>
+            </CampusProvider>
+          </UiProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -92,6 +92,7 @@ export interface Shop {
   delivery_enabled: boolean;
   delivery_fee: number;
   min_order_for_free_delivery?: number | null;
+  min_order_amount?: number | null;
   prep_time_minutes: number;
   upi_vpa?: string;
   phone: string;
@@ -145,7 +146,12 @@ export interface Order {
   address_id?: string;
   address_summary?: string;
   status: OrderStatus;
-  delivery_pin: string; // 4-digit PIN given to customer
+  /**
+   * 4-digit handover code. Present ONLY on the owning customer's own order
+   *   payloads — it is stripped server-side for every other actor (shops,
+   *   admins) so the anti-dispute mechanism stays intact.
+   */
+  delivery_pin?: string;
   items_subtotal: number;
   delivery_fee: number;
   platform_fee: number;
@@ -201,9 +207,41 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface CartState {
-  shopId: string | null;
-  shopName: string | null;
-  items: CartItem[];
-  specialInstructions: string;
+/**
+ * Server-computed bill. The client renders these numbers verbatim and never
+ * recalculates them — the server is the only authority on price.
+ */
+export interface PricingView {
+  itemsSubtotal: number;
+  deliveryFee: number;
+  platformFee: number;
+  taxFee: number;
+  total: number;
+  minOrderShortfall: number | null;
+}
+
+export interface CartLineView {
+  item: CatalogItem;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+}
+
+export interface CartView {
+  shopId: string;
+  shopName: string;
+  shop: Shop;
+  items: CartLineView[];
+  pricing: PricingView;
+  unavailableItemIds: string[];
+  specialInstructions?: string;
+  updatedAt: string;
+}
+
+/** Reasons a cart cannot be checked out, surfaced before the user tries. */
+export interface CartIssue {
+  code: 'CART_EMPTY' | 'SHOP_CLOSED' | 'CART_ITEM_UNAVAILABLE' | 'MIN_ORDER_NOT_MET';
+  message: string;
+  itemIds?: string[];
+  shortfall?: number;
 }

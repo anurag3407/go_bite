@@ -11,10 +11,11 @@ export type Permission =
   | 'shop:open_close'
   | 'orders:accept'
   | 'delivery:verify_pin'
+  | 'delivery:override'
   | 'order:place'
   | 'ticket:create';
 
-const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
+export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
   SUPER_ADMIN: [
     'platform:manage',
     'campus:manage',
@@ -25,6 +26,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'shop:open_close',
     'orders:accept',
     'delivery:verify_pin',
+    'delivery:override',
     'order:place',
     'ticket:create',
   ],
@@ -37,6 +39,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'shop:open_close',
     'orders:accept',
     'delivery:verify_pin',
+    'delivery:override',
   ],
   CONFIG_CHANGER: [
     'config:change',
@@ -44,6 +47,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
   QUERY_RESOLVER: [
     'tickets:resolve',
     'orders:refund',
+    'delivery:override',
   ],
   SHOP_OWNER: [
     'menu:manage',

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Shop } from '@/lib/types';
-import { Star, Clock, Bike, Scissors, Shirt, Printer, Sparkles, Check } from 'lucide-react';
+import { Star, Clock, Bike, Scissors, Shirt, Printer, Check } from 'lucide-react';
 
 interface VendorCardProps {
   shop: Shop;
@@ -20,7 +20,7 @@ export function VendorCard({ shop, isSelected, onSelect }: VendorCardProps) {
       case 'PRINT_STATIONERY':
         return <Printer className="w-3.5 h-3.5 text-purple-600" />;
       default:
-        return <Bike className="w-3.5 h-3.5 text-[#E95322]" />;
+        return <Bike className="w-3.5 h-3.5 text-[#FF6161]" />;
     }
   };
 
@@ -38,25 +38,25 @@ export function VendorCard({ shop, isSelected, onSelect }: VendorCardProps) {
       onClick={onSelect}
       className={`group cursor-pointer rounded-3xl p-3 border transition-all text-left relative bg-white ${
         isSelected
-          ? 'border-[#E95322] ring-2 ring-[#E95322]/20 shadow-lg shadow-[#E95322]/10'
-          : 'border-[#F1E9E4] hover:border-[#E95322]/50 hover:shadow-md hover:bg-[#FAF7F5]'
+          ? 'border-[#FF6161] ring-2 ring-[#FF6161]/20 shadow-lg shadow-[#FF6161]/10'
+          : 'border-[#F2ECE9] hover:border-[#FF6161]/40 hover:shadow-md hover:bg-[#FAF6F4]'
       }`}
     >
       {/* Vendor Image Container */}
-      <div className="relative h-36 w-full rounded-2xl overflow-hidden bg-[#FAF7F5]">
+      <div className="relative h-36 w-full rounded-2xl overflow-hidden bg-[#FAF6F4]">
         <div
           className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
           style={{ backgroundImage: `url(${shop.image_url})` }}
         />
         
         {/* Rating Badge */}
-        <div className="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-md px-2 py-1 rounded-xl text-xs font-black text-[#391713] flex items-center gap-1 shadow-sm">
-          <Star className="w-3.5 h-3.5 fill-[#FFB800] text-[#FFB800]" />
+        <div className="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-md px-2 py-1 rounded-xl text-xs font-black text-[#1E1E24] flex items-center gap-1 shadow-xs">
+          <Star className="w-3.5 h-3.5 fill-[#F59E0B] text-[#F59E0B]" />
           <span>{shop.rating}</span>
         </div>
 
         {/* Service Type Tag */}
-        <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-[#391713] flex items-center gap-1.5 shadow-sm">
+        <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-[#1E1E24] flex items-center gap-1.5 shadow-xs">
           {getServiceIcon()}
           <span>{getServiceLabel()}</span>
         </div>
@@ -74,35 +74,35 @@ export function VendorCard({ shop, isSelected, onSelect }: VendorCardProps) {
       {/* Info Body */}
       <div className="pt-3 px-1 space-y-1.5">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="font-black text-sm text-[#391713] truncate group-hover:text-[#E95322] transition">
+          <h3 className="font-black text-sm text-[#1E1E24] truncate group-hover:text-[#FF6161] transition">
             {shop.name}
           </h3>
           {isSelected && (
-            <div className="w-5 h-5 rounded-full bg-[#E95322] text-white flex items-center justify-center shrink-0">
+            <div className="w-5 h-5 rounded-full bg-[#FF6161] text-white flex items-center justify-center shrink-0">
               <Check className="w-3 h-3 stroke-[3]" />
             </div>
           )}
         </div>
 
-        <p className="text-xs text-[#7A6A65] line-clamp-1">{shop.description}</p>
+        <p className="text-xs text-[#7E7E8B] line-clamp-1">{shop.description}</p>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1 pt-0.5">
           {shop.tags?.slice(0, 3).map((tag, i) => (
-            <span key={i} className="text-[10px] font-semibold bg-[#FAF7F5] border border-[#F1E9E4] text-[#7A6A65] px-2 py-0.5 rounded-md">
+            <span key={i} className="text-[10px] font-semibold bg-[#FAF6F4] border border-[#F2ECE9] text-[#7E7E8B] px-2 py-0.5 rounded-md">
               {tag}
             </span>
           ))}
         </div>
 
         {/* Delivery / Prep Time Footer */}
-        <div className="pt-2 border-t border-[#F1E9E4] flex items-center justify-between text-xs font-bold text-[#391713]">
-          <div className="flex items-center gap-1 text-[#7A6A65]">
-            <Clock className="w-3.5 h-3.5 text-[#E95322]" />
+        <div className="pt-2 border-t border-[#F2ECE9] flex items-center justify-between text-xs font-bold text-[#1E1E24]">
+          <div className="flex items-center gap-1 text-[#7E7E8B]">
+            <Clock className="w-3.5 h-3.5 text-[#FF6161]" />
             <span>~{shop.prep_time_minutes} mins</span>
           </div>
 
-          <div className="text-[11px] text-[#E95322] font-black">
+          <div className="text-[11px] text-[#FF6161] font-black">
             {shop.delivery_enabled ? (
               shop.delivery_fee === 0 ? (
                 'Free Delivery'
